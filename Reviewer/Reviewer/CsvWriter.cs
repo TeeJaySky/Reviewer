@@ -9,33 +9,45 @@ namespace Reviewer
 {
     public class CsvOutputRecord
     {
-        public string searchTerm { get; set; }
-        public string title { get; set; }
-        public string category { get; set; }
-        public string bsr { get; set; }
-        public string url { get; set; }
-        public string result { get; set; }
-        public string dateStamp { get; set; }
+        public struct Record
+        {
+            public string searchTerm { get; set; }
+            public string title { get; set; }
+            public string category { get; set; }
+            public string bsr { get; set; }
+            public string url { get; set; }
+            public string result { get; set; }
+            public string dateStamp { get; set; }
+
+            public override string ToString()
+            {
+                return ToCsv(searchTerm, title, category, bsr, url, result, dateStamp);
+            }
+        }
+
+        public List<Record> Records = new List<Record>();
 
         public static string ToCsv(params string[] inputs)
         {
             return string.Join(", ", inputs);
         }
 
-        public override string ToString()
+        public CsvOutputRecord(List<CsvRecord> records, string res, string date)
         {
-            return ToCsv(searchTerm, title, category, bsr, url, result, dateStamp);
-        }
-
-        public CsvOutputRecord(CsvRecord record, string res, string date)
-        {
-            searchTerm = record.searchTerm;
-            title = record.title;
-            category = record.category;
-            bsr = record.bsr;
-            url = record.url;
-            result = res;
-            dateStamp = date;
+            foreach(var record in records)
+            {
+                Records.Add(new Record
+                {
+                    searchTerm = record.searchTerm
+                    , title = record.title
+                    , category = record.category
+                    , bsr = record.bsr
+                    , url = record.url
+                    , result = res
+                    , dateStamp = date
+                });
+            }
+            
         }
 
         /// <summary>
@@ -46,13 +58,15 @@ namespace Reviewer
         {
             var results = csvString.Split(new string[] { ", " }, StringSplitOptions.None).ToList();
 
-            searchTerm = results[0];
-            title = results[1];
-            category = results[2];
-            bsr = results[3];
-            url = results[4];
-            result = results[5];
-            dateStamp = results[6];
+            Records.Add(new Record{
+                searchTerm = results[0]
+                , title = results[1]
+                , category = results[2]
+                , bsr = results[3]
+                , url = results[4]
+                , result = results[5]
+                , dateStamp = results[6]
+            });
         }
     }
 
@@ -76,6 +90,30 @@ namespace Reviewer
             }
         }
 
+        /// <summary>
+        /// Todo: overwrite a previous decision that was made in the output file
+        /// </summary>
+        /// <param name="output"></param>
+        public void ModifyLine(string output)
+        {
+
+        }
+
+        public void Write(CsvOutputRecord record)
+        {
+            using (var writer = new System.IO.StreamWriter(outputFile, true, System.Text.Encoding.ASCII))
+            {
+                foreach(var rec in record.Records)
+                {
+                    writer.WriteLine(rec.ToString());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Write to the next line in the output file
+        /// </summary>
+        /// <param name="output"></param>
         public void Write(string output)
         {
             using (var writer = new System.IO.StreamWriter(outputFile, true, System.Text.Encoding.ASCII))
@@ -95,6 +133,25 @@ namespace Reviewer
 
             string lastRecord = lines.Last();
             return new CsvOutputRecord(lastRecord);
+        }
+
+        public bool RecordHasBeenReviewed(CsvRecord record)
+        {
+            using (var reader = new System.IO.StreamReader(outputFile))
+            {
+                string line;
+                while((line = reader.ReadLine()) != null)
+                {
+                    CsvOutputRecord lineRecord = new CsvOutputRecord(line);
+
+                    if (record.title == lineRecord.Records.First().title)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
         }
     }
 }

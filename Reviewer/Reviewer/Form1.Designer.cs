@@ -38,6 +38,8 @@
             this.bsr = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.forward = new System.Windows.Forms.Button();
+            this.Back = new System.Windows.Forms.Button();
             this.NoButton = new System.Windows.Forms.Button();
             this.MaybeButton = new System.Windows.Forms.Button();
             this.YesButton = new System.Windows.Forms.Button();
@@ -74,7 +76,7 @@
             this.searchTerm.Location = new System.Drawing.Point(108, 635);
             this.searchTerm.Margin = new System.Windows.Forms.Padding(2);
             this.searchTerm.Name = "searchTerm";
-            this.searchTerm.Size = new System.Drawing.Size(903, 20);
+            this.searchTerm.Size = new System.Drawing.Size(902, 20);
             this.searchTerm.TabIndex = 4;
             // 
             // title
@@ -83,7 +85,7 @@
             this.title.Location = new System.Drawing.Point(108, 679);
             this.title.Margin = new System.Windows.Forms.Padding(2);
             this.title.Name = "title";
-            this.title.Size = new System.Drawing.Size(903, 20);
+            this.title.Size = new System.Drawing.Size(902, 20);
             this.title.TabIndex = 6;
             // 
             // label3
@@ -103,7 +105,7 @@
             this.category.Location = new System.Drawing.Point(108, 657);
             this.category.Margin = new System.Windows.Forms.Padding(2);
             this.category.Name = "category";
-            this.category.Size = new System.Drawing.Size(903, 20);
+            this.category.Size = new System.Drawing.Size(902, 20);
             this.category.TabIndex = 8;
             // 
             // label4
@@ -123,7 +125,7 @@
             this.bsr.Location = new System.Drawing.Point(108, 613);
             this.bsr.Margin = new System.Windows.Forms.Padding(2);
             this.bsr.Name = "bsr";
-            this.bsr.Size = new System.Drawing.Size(903, 20);
+            this.bsr.Size = new System.Drawing.Size(902, 20);
             this.bsr.TabIndex = 10;
             // 
             // label5
@@ -142,7 +144,9 @@
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.46614F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 89.53386F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 366F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 367F));
+            this.tableLayoutPanel1.Controls.Add(this.forward, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.Back, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this.NoButton, 2, 6);
             this.tableLayoutPanel1.Controls.Add(this.MaybeButton, 2, 4);
             this.tableLayoutPanel1.Controls.Add(this.webBrowser, 0, 0);
@@ -167,16 +171,39 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1380, 746);
             this.tableLayoutPanel1.TabIndex = 13;
+            // 
+            // forward
+            // 
+            this.forward.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.forward.Location = new System.Drawing.Point(3, 702);
+            this.forward.Name = "forward";
+            this.tableLayoutPanel1.SetRowSpan(this.forward, 2);
+            this.forward.Size = new System.Drawing.Size(100, 41);
+            this.forward.TabIndex = 17;
+            this.forward.Text = "Forward";
+            this.forward.UseVisualStyleBackColor = true;
+            // 
+            // Back
+            // 
+            this.Back.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Back.Location = new System.Drawing.Point(109, 702);
+            this.Back.Name = "Back";
+            this.tableLayoutPanel1.SetRowSpan(this.Back, 2);
+            this.Back.Size = new System.Drawing.Size(900, 41);
+            this.Back.TabIndex = 16;
+            this.Back.Text = "Back";
+            this.Back.UseVisualStyleBackColor = true;
             // 
             // NoButton
             // 
             this.NoButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NoButton.Location = new System.Drawing.Point(1016, 702);
+            this.NoButton.Location = new System.Drawing.Point(1015, 702);
             this.NoButton.Name = "NoButton";
             this.tableLayoutPanel1.SetRowSpan(this.NoButton, 2);
-            this.NoButton.Size = new System.Drawing.Size(361, 41);
+            this.NoButton.Size = new System.Drawing.Size(362, 41);
             this.NoButton.TabIndex = 15;
             this.NoButton.Text = "No";
             this.NoButton.UseVisualStyleBackColor = true;
@@ -185,10 +212,10 @@
             // MaybeButton
             // 
             this.MaybeButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MaybeButton.Location = new System.Drawing.Point(1016, 658);
+            this.MaybeButton.Location = new System.Drawing.Point(1015, 658);
             this.MaybeButton.Name = "MaybeButton";
             this.tableLayoutPanel1.SetRowSpan(this.MaybeButton, 2);
-            this.MaybeButton.Size = new System.Drawing.Size(361, 38);
+            this.MaybeButton.Size = new System.Drawing.Size(362, 38);
             this.MaybeButton.TabIndex = 14;
             this.MaybeButton.Text = "Maybe";
             this.MaybeButton.UseVisualStyleBackColor = true;
@@ -197,10 +224,10 @@
             // YesButton
             // 
             this.YesButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.YesButton.Location = new System.Drawing.Point(1016, 614);
+            this.YesButton.Location = new System.Drawing.Point(1015, 614);
             this.YesButton.Name = "YesButton";
             this.tableLayoutPanel1.SetRowSpan(this.YesButton, 2);
-            this.YesButton.Size = new System.Drawing.Size(361, 38);
+            this.YesButton.Size = new System.Drawing.Size(362, 38);
             this.YesButton.TabIndex = 13;
             this.YesButton.Text = "Yes";
             this.YesButton.UseVisualStyleBackColor = true;
@@ -236,6 +263,8 @@
         private System.Windows.Forms.Button NoButton;
         private System.Windows.Forms.Button MaybeButton;
         private System.Windows.Forms.Button YesButton;
+        private System.Windows.Forms.Button forward;
+        private System.Windows.Forms.Button Back;
     }
 }
 

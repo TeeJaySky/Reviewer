@@ -29,7 +29,7 @@ namespace Reviewer
         /// <param name="csvString"></param>
         public CsvRecord(string csvString)
         {
-            var results = csvString.Split(new string[] {", "}, StringSplitOptions.None).ToList();
+            var results = csvString.Split(new string[] {","}, StringSplitOptions.None).ToList();
 
             searchTerm = results[0];
             title = results[1];
@@ -38,12 +38,12 @@ namespace Reviewer
             url = results[4];
         }
 
-        public static implicit operator CsvRecord(CsvOutputRecord outputRecord)
+        public static implicit operator CsvRecord(CsvOutputRecord.Record outputRecord)
         {
             return new CsvRecord(outputRecord);
         }
 
-        public CsvRecord(CsvOutputRecord outputRecord)
+        public CsvRecord(CsvOutputRecord.Record outputRecord)
         {
             searchTerm = outputRecord.searchTerm;
             title = outputRecord.title;
@@ -68,6 +68,7 @@ namespace Reviewer
     public class CsvReader
     {
         System.IO.StreamReader reader;
+        string FileName;
 
         /// <summary>
         /// Start reading from the beginning of a file
@@ -75,6 +76,7 @@ namespace Reviewer
         /// <param name="fileName"></param>
         public CsvReader(string fileName)
         {
+            FileName = fileName;
             reader = new System.IO.StreamReader(fileName);
             string headers = reader.ReadLine();
         }
@@ -86,6 +88,7 @@ namespace Reviewer
         /// <param name="lastRecord"></param>
         public CsvReader(string fileName, CsvRecord lastRecord)
         {
+            FileName = fileName;
             reader = new System.IO.StreamReader(fileName);
             string headers = reader.ReadLine();
 
@@ -111,12 +114,33 @@ namespace Reviewer
             reader.Close();
         }
 
-        public CsvRecord GetNextRecord()
+        public List<CsvRecord> GetAllRecords(CsvRecord record)
+        {
+            List<CsvRecord> matchingRecords = new List<CsvRecord>();
+            // Look through the file for all other records that match the url
+            using (var tempReader = new System.IO.StreamReader(FileName))
+            {
+                string line;
+                while ((line = tempReader.ReadLine()) != null)
+                {
+                    CsvRecord currentLine = new CsvRecord(line);
+
+                    if(currentLine.url == record.url)
+                    {
+                        matchingRecords.Add(currentLine);
+                    }
+                }
+            }
+
+            return matchingRecords;
+        }
+
+        public List<CsvRecord> GetNextRecords()
         {
             var result = reader.ReadLine();
             if (result != null)
             {
-                return new CsvRecord(result);
+                return GetAllRecords(new CsvRecord(result));
             }
             else
             {
