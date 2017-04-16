@@ -13,14 +13,16 @@ namespace Reviewer
         public string category { get; set; }
         public string bsr { get; set; }
         public string url { get; set; }
+        public string imageLocation { get; set; }
 
-        public CsvRecord(string currentTerm, string currentTitle, string currentCategory, string currentBsr, string currentUrl)
+        public CsvRecord(string currentTerm, string currentTitle, string currentCategory, string currentBsr, string currentUrl, string imageLoc)
         {
             searchTerm = currentTerm;
             title = currentTitle;
             category = currentCategory;
             bsr = currentBsr;
             url = currentUrl;
+            imageLocation = imageLoc;
         }
 
         /// <summary>
@@ -36,6 +38,7 @@ namespace Reviewer
             category = results[2];
             bsr = results[3];
             url = results[4];
+            imageLocation = results[5];
         }
 
         public static implicit operator CsvRecord(CsvOutputRecord.Record outputRecord)
@@ -50,6 +53,7 @@ namespace Reviewer
             category = outputRecord.category;
             bsr = outputRecord.bsr;
             url = outputRecord.url;
+            imageLocation = outputRecord.imageLocation;
         }
 
         public override bool Equals(System.Object test)
@@ -59,6 +63,7 @@ namespace Reviewer
                 bsr == record.bsr
                 && searchTerm == record.searchTerm
                 && url == record.url
+                && imageLocation == record.imageLocation
                 && category == record.category
                 && title == record.title
                 ;

@@ -16,12 +16,13 @@ namespace Reviewer
             public string category { get; set; }
             public string bsr { get; set; }
             public string url { get; set; }
+            public string imageLocation { get; set; }
             public string result { get; set; }
             public string dateStamp { get; set; }
 
             public override string ToString()
             {
-                return ToCsv(searchTerm, title, category, bsr, url, result, dateStamp);
+                return ToCsv(searchTerm, title, category, bsr, url, imageLocation, result, dateStamp);
             }
         }
 
@@ -43,6 +44,7 @@ namespace Reviewer
                     , category = record.category
                     , bsr = record.bsr
                     , url = record.url
+                    , imageLocation = record.imageLocation
                     , result = res
                     , dateStamp = date
                 });
@@ -64,8 +66,9 @@ namespace Reviewer
                 , category = results[2]
                 , bsr = results[3]
                 , url = results[4]
-                , result = results[5]
-                , dateStamp = results[6]
+                , imageLocation = results[5]
+                , result = results[6]
+                , dateStamp = results[7]
             });
         }
     }
@@ -86,7 +89,7 @@ namespace Reviewer
 
             if(lines.ToList().Count == 0)
             {
-                Write(CsvOutputRecord.ToCsv("Search Term", "Title", "Category", "BSR", "URL", "Decision", "Date of decision"));
+                Write(CsvOutputRecord.ToCsv("Search Term", "Title", "Category", "BSR", "URL", "Image Location", "Decision", "Date of decision"));
             }
         }
 
