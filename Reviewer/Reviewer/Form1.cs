@@ -17,6 +17,7 @@ namespace Reviewer
         CsvWriter writer;
 
         List<CsvRecord> currentRecords;
+        List<Task> buttonClickTasks = new List<Task>();
 
         const bool ContinueFromLastProduct = false;
         const string InputFilePath = @"C:\Users\Trent\Desktop\TEmp\Outspoken Panda\ResultsSorted.csv";
@@ -78,22 +79,38 @@ namespace Reviewer
 
         }
 
+        public void CopyImageToFolder(string result)
+        {
+            // Move the image to the yes subfolder
+            var path = Path.GetDirectoryName(currentRecords.First().imageLocation);
+            var fileName = Path.GetFileName(currentRecords.First().imageLocation);
+
+            var newPath = Path.Combine(path, result);
+
+            System.IO.Directory.CreateDirectory(newPath);
+
+            string newFilePath = Path.Combine(newPath, fileName);
+            if(File.Exists(currentRecords.First().imageLocation))
+            {
+                File.Move(currentRecords.First().imageLocation, newFilePath);
+            }
+        }
+
         private void YesButton_Click(object sender, EventArgs e)
         {
             if (currentRecords != null)
             {
-                CsvOutputRecord outputRecord = new CsvOutputRecord(currentRecords, "Yes", DateTime.Now.ToString());
+                // Write the output record to the file synchronously
+                string result = "Yes";
+                CsvOutputRecord outputRecord = new CsvOutputRecord(currentRecords, result, DateTime.Now.ToString());
                 writer.Write(outputRecord);
 
-                // Move the image to the yes subfolder
-                var path = Path.GetDirectoryName(currentRecords.First().imageLocation);
-                var fileName = Path.GetFileName(currentRecords.First().imageLocation);
+                // Asynchronously copy the file to the new folder
+                var task = Task.Factory.StartNew(() => {
+                    CopyImageToFolder(result);
+                });
 
-                var newPath = Path.Combine(path, "Yes");
-
-                System.IO.Directory.CreateDirectory(newPath);
-
-                File.Move(currentRecords.First().imageLocation, Path.Combine(newPath, fileName));
+                buttonClickTasks.Add(task);
 
                 DisplayNextResult();
             }
@@ -103,17 +120,18 @@ namespace Reviewer
         {
             if (currentRecords != null)
             {
-                CsvOutputRecord outputRecord = new CsvOutputRecord(currentRecords, "Maybe", DateTime.Now.ToString());
+                // Write the output record to the file synchronously
+                string result = "Maybe";
+                CsvOutputRecord outputRecord = new CsvOutputRecord(currentRecords, result, DateTime.Now.ToString());
                 writer.Write(outputRecord);
 
-                // Move the image to the yes subfolder
-                var path = Path.GetDirectoryName(currentRecords.First().imageLocation);
-                var fileName = Path.GetFileName(currentRecords.First().imageLocation);
+                // Asynchronously copy the file to the new folder
+                var task = Task.Factory.StartNew(() =>
+                {
+                    CopyImageToFolder(result);
+                });
 
-                var newPath = Path.Combine(path, "Maybe");
-                System.IO.Directory.CreateDirectory(newPath);
-
-                File.Move(currentRecords.First().imageLocation, Path.Combine(newPath, fileName));
+                buttonClickTasks.Add(task);
 
                 DisplayNextResult();
             }
@@ -123,17 +141,18 @@ namespace Reviewer
         {
             if (currentRecords != null)
             {
-                CsvOutputRecord outputRecord = new CsvOutputRecord(currentRecords, "No", DateTime.Now.ToString());
+                // Write the output record to the file synchronously
+                string result = "No";
+                CsvOutputRecord outputRecord = new CsvOutputRecord(currentRecords, result, DateTime.Now.ToString());
                 writer.Write(outputRecord);
 
-                // Move the image to the yes subfolder
-                var path = Path.GetDirectoryName(currentRecords.First().imageLocation);
-                var fileName = Path.GetFileName(currentRecords.First().imageLocation);
+                // Asynchronously copy the file to the new folder
+                var task = Task.Factory.StartNew(() =>
+                {
+                    CopyImageToFolder(result);
+                });
 
-                var newPath = Path.Combine(path, "No");
-                System.IO.Directory.CreateDirectory(newPath);
-
-                File.Move(currentRecords.First().imageLocation, Path.Combine(newPath, fileName));
+                buttonClickTasks.Add(task);
 
                 DisplayNextResult();
             }
